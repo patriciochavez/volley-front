@@ -25,6 +25,7 @@
     <string name="ok">OK</string>
     <string name="request_location_updates">Registrar actualizaciones de localización</string>
     <string name="remove_location_updates">Remover actualizaciones de localización</string>
+    <string name="share_ws">Compartir actualizaciones de localización por Whatsapp</string>
 
     <string name="location_updated">Localización actualizada: %1$s</string>
 </resources>

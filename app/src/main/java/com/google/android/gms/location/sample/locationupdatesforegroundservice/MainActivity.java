@@ -84,6 +84,8 @@ public class MainActivity extends AppCompatActivity implements
     // UI elements.
     private Button mRequestLocationUpdatesButton;
     private Button mRemoveLocationUpdatesButton;
+    private Button wsShareLocationUpdatesButton;
+
 
     // Monitors the state of the connection to the service.
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
@@ -124,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements
 
         mRequestLocationUpdatesButton = (Button) findViewById(R.id.request_location_updates_button);
         mRemoveLocationUpdatesButton = (Button) findViewById(R.id.remove_location_updates_button);
+        wsShareLocationUpdatesButton= (Button) findViewById(R.id.share_ws_button);
 
         mRequestLocationUpdatesButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,6 +143,18 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onClick(View view) {
                 mService.removeLocationUpdates();
+            }
+        });
+
+        wsShareLocationUpdatesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "https://htmlmap-vr.44fs.preview.openshiftapps.com");
+                sendIntent.setType("text/plain");
+                sendIntent.setPackage("com.whatsapp");
+                startActivity(sendIntent);
             }
         });
 
