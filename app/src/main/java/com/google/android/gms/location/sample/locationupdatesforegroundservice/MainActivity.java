@@ -337,7 +337,7 @@ public class MainActivity extends AppCompatActivity implements
                             //guest[0] = response.substring(0, 500);
                             Intent sendIntent = new Intent();
                             sendIntent.setAction(Intent.ACTION_SEND);
-                            sendIntent.putExtra(Intent.EXTRA_TEXT, "https://htmlmap-vr.44fs.preview.openshiftapps.com/token?guest=" + response.substring(0, 500));
+                            sendIntent.putExtra(Intent.EXTRA_TEXT, "https://htmlmap-vr.44fs.preview.openshiftapps.com/token?guest=" + response.toString());
                             sendIntent.setType("text/plain");
                             sendIntent.setPackage("com.whatsapp");
                             startActivity(sendIntent);
