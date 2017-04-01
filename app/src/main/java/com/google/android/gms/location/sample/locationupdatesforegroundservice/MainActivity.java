@@ -46,6 +46,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * The only activity in this sample.
  *
@@ -86,7 +99,6 @@ public class MainActivity extends AppCompatActivity implements
     private Button mRemoveLocationUpdatesButton;
     private Button wsShareLocationUpdatesButton;
 
-
     // Monitors the state of the connection to the service.
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
@@ -126,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements
 
         mRequestLocationUpdatesButton = (Button) findViewById(R.id.request_location_updates_button);
         mRemoveLocationUpdatesButton = (Button) findViewById(R.id.remove_location_updates_button);
-        wsShareLocationUpdatesButton= (Button) findViewById(R.id.share_ws_button);
+        wsShareLocationUpdatesButton = (Button) findViewById(R.id.share_ws_button);
 
         mRequestLocationUpdatesButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,12 +161,7 @@ public class MainActivity extends AppCompatActivity implements
         wsShareLocationUpdatesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, "https://htmlmap-vr.44fs.preview.openshiftapps.com");
-                sendIntent.setType("text/plain");
-                sendIntent.setPackage("com.whatsapp");
-                startActivity(sendIntent);
+                authPost();
             }
         });
 
@@ -198,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements
      * Returns the current state of the permissions needed.
      */
     private boolean checkPermissions() {
-        return  PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(this,
+        return PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
     }
 
@@ -309,4 +316,52 @@ public class MainActivity extends AppCompatActivity implements
             mRemoveLocationUpdatesButton.setEnabled(false);
         }
     }
+
+
+    public void authPost() {
+
+        final JSONObject credential = new JSONObject();
+
+        try {
+            credential.put("usuario", "rayen");
+            credential.put("password", "mgx506");
+
+            RequestQueue queue = Volley.newRequestQueue(this);
+            String url = "https://htmlmap-vr.44fs.preview.openshiftapps.com/toauth";
+
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            //sb.append("Ok: ").append(response.substring(0, 500)).append("\n");
+                            //guest[0] = response.substring(0, 500);
+                            Intent sendIntent = new Intent();
+                            sendIntent.setAction(Intent.ACTION_SEND);
+                            sendIntent.putExtra(Intent.EXTRA_TEXT, "https://htmlmap-vr.44fs.preview.openshiftapps.com/token?guest=" + response.substring(0, 500));
+                            sendIntent.setType("text/plain");
+                            sendIntent.setPackage("com.whatsapp");
+                            startActivity(sendIntent);
+
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    //sb.append("Error: ").append(error.toString()).append("\n");
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("json", credential.toString());
+                    return params;
+                }
+            };
+
+            queue.add(stringRequest);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

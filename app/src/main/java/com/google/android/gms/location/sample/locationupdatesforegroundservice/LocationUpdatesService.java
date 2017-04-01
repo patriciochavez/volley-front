@@ -467,4 +467,5 @@ public class LocationUpdatesService extends Service implements GoogleApiClient.C
         }
 
     }
+
 }
