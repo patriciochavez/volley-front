@@ -426,7 +426,7 @@ public class LocationUpdatesService extends Service implements GoogleApiClient.C
             location.put("timestamp", format);
 
             RequestQueue queue = Volley.newRequestQueue(this);
-            String url ="https://volley-vr.44fs.preview.openshiftapps.com/location";
+            String url ="https://volley-vr.1d35.starter-us-east-1.openshiftapps.com/location";
 
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {
