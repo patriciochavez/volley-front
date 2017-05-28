@@ -327,7 +327,7 @@ public class MainActivity extends AppCompatActivity implements
             credential.put("password", "mgx506");
 
             RequestQueue queue = Volley.newRequestQueue(this);
-            String url = "https://htmlmap-vr.1d35.starter-us-east-1.openshiftapps.com/toauth";
+            String url = "https://volley-vr.1d35.starter-us-east-1.openshiftapps.com/toauth";
 
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {
@@ -337,7 +337,7 @@ public class MainActivity extends AppCompatActivity implements
                             //guest[0] = response.substring(0, 500);
                             Intent sendIntent = new Intent();
                             sendIntent.setAction(Intent.ACTION_SEND);
-                            sendIntent.putExtra(Intent.EXTRA_TEXT, "https://htmlmap-vr.1d35.starter-us-east-1.openshiftapps.com/token?guest=" + response.toString());
+                            sendIntent.putExtra(Intent.EXTRA_TEXT, "https://volley-vr.1d35.starter-us-east-1.openshiftapps.com/token?guest=" + response.toString());
                             sendIntent.setType("text/plain");
                             sendIntent.setPackage("com.whatsapp");
                             startActivity(sendIntent);
