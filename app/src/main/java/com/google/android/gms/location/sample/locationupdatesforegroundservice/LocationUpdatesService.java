@@ -102,7 +102,7 @@ public class LocationUpdatesService extends Service implements GoogleApiClient.C
     /**
      * The desired interval for location updates. Inexact. Updates may be more or less frequent.
      */
-    private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
+    private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 5000;
 
     public static class NukeSSLCerts {
         protected static final String TAG = "NukeSSLCerts";
