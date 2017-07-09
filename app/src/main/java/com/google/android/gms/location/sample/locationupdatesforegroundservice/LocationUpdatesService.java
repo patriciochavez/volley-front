@@ -34,6 +34,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -89,7 +90,7 @@ public class LocationUpdatesService extends Service implements GoogleApiClient.C
     private static final String PACKAGE_NAME =
             "com.google.android.gms.location.sample.locationupdatesforegroundservice";
 
-    private static final String TAG = LocationUpdatesService.class.getSimpleName();
+    private static final String TAG = "Report.Me";
 
     static final String ACTION_BROADCAST = PACKAGE_NAME + ".broadcast";
 
@@ -98,6 +99,8 @@ public class LocationUpdatesService extends Service implements GoogleApiClient.C
             ".started_from_notification";
 
     private final IBinder mBinder = new LocalBinder();
+
+    private String imei = null;
 
     /**
      * The desired interval for location updates. Inexact. Updates may be more or less frequent.
@@ -193,6 +196,11 @@ public class LocationUpdatesService extends Service implements GoogleApiClient.C
         handlerThread.start();
         mServiceHandler = new Handler(handlerThread.getLooper());
         mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        TelephonyManager operator = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        imei = operator.getDeviceId();
+
+        //Log.i(TAG, imei);
     }
 
     @Override
@@ -420,10 +428,13 @@ public class LocationUpdatesService extends Service implements GoogleApiClient.C
         //sb.append(mCurrentLocation.getLatitude()).append("\"");
         try {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
-            String format = simpleDateFormat.format(new Date());
+            String time = simpleDateFormat.format(new Date());
             location.put("latitude", new Float(mLocation.getLatitude()));
             location.put("longitude", new Float(mLocation.getLongitude()));
-            location.put("timestamp", format);
+            location.put("userid", imei);
+            location.put("timestamp", time);
+
+            //Log.i(TAG, "********" + location);
 
             RequestQueue queue = Volley.newRequestQueue(this);
             String url ="https://volley-vr.1d35.starter-us-east-1.openshiftapps.com/location";

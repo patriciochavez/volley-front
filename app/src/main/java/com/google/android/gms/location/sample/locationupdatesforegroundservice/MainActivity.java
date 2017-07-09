@@ -80,7 +80,7 @@ import java.util.Map;
  */
 public class MainActivity extends AppCompatActivity implements
         SharedPreferences.OnSharedPreferenceChangeListener {
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = "Report.Me";
 
     // Used in checking for runtime permissions.
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
